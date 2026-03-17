@@ -21,6 +21,8 @@ set(SOURCES
     src/Pidog.cpp
     src/Robot.cpp
     src/PWM.cpp
+    src/IMU.cpp        
+    src/ActionDict.cpp
 )
 
 # 7. Créer l'exécutable final (nommé "pidog_run")
