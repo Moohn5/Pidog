@@ -1,25 +1,32 @@
 #include "ActionDict.hpp"
-#include <cmath>
+#include "Pidog.hpp" // Pour accéder à legs_angle_calculation
 
 Action ActionDict::get_action(const std::string& name) {
-    if (name == "stand") return stand();
-    if (name == "sit") return sit();
-    if (name == "lie") return lie();
-    if (name == "wag_tail") return wag_tail();
+    if (name == "forward")    return forward();
+    if (name == "backward")   return backward();
+    if (name == "turn_left")  return turn_left();
+    if (name == "turn_right") return turn_right();
+    if (name == "trot")       return trot();
+    if (name == "stand")      return stand();
+    if (name == "sit")        return sit();
+    if (name == "lie")        return lie();
+    if (name == "wag_tail")   return wag_tail();
+    
     return {{}, "none"};
 }
 
-Action ActionDict::stand() {
-    // Traduction de : [[x, y], [x, y], [x+20, y-5], [x+20, y-5]]
-    double x = (double)barycenter;
-    double y = (double)height;
-    return { {{x, y, x, y, x+20, y-5, x+20, y-5}}, "legs" };
-}
-
-Action ActionDict::sit() {
-    return { {{30, 60, -30, -60, 80, -45, -80, 45}}, "legs" };
-}
-
-Action ActionDict::wag_tail() {
-    return { {{-30}, {30}}, "tail" };
+// Exemple d'implémentation de forward
+Action ActionDict::forward() {
+    Action act;
+    act.type = "legs";
+    
+    Walk walker(Walk::FORWARD, Walk::STRAIGHT);
+    auto coords = walker.get_coords();
+    
+    for (auto& pose : coords) {
+        // IMPORTANT : Ton Pidog::legs_angle_calculation doit être statique 
+        // ou accessible ici pour transformer les (y,z) en angles servos.
+        act.data.push_back(Pidog::legs_angle_calculation(pose));
+    }
+    return act;
 }
