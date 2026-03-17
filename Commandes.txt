@@ -1,0 +1,13 @@
+sudo apt update
+sudo apt install -y build-essential git
+git clone https://github.com/joan2937/pigpio.git
+cd pigpio
+make
+sudo make install
+
+sudo apt-get update
+sudo apt-get install build-essential cmake libi2c-dev libeigen-dev
+
+g++ -o pidog_prog mon_code.cpp -lpigpio -lpthread && sudo ./pidog_prog
+
+sudo raspi-config
