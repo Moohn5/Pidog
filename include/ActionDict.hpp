@@ -2,10 +2,11 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "Gait.hpp" // <--- Indispensable pour utiliser Walk et Trot
 
 struct Action {
-    std::vector<std::vector<double>> data; // Liste de poses (angles ou coords)
-    std::string type;                      // "legs", "head", ou "tail"
+    std::vector<std::vector<double>> data;
+    std::string type;
 };
 
 class ActionDict {
@@ -14,7 +15,14 @@ public:
     Action get_action(const std::string& name);
 
 private:
-    // Les fonctions qui génèrent les mouvements
+    // Méthodes de haut niveau (Calculées via Gait)
+    Action forward();    // <--- Ajouté
+    Action backward();   // <--- Ajouté
+    Action turn_left();  // <--- Ajouté
+    Action turn_right(); // <--- Ajouté
+    Action trot();       // <--- Ajouté
+
+    // Poses fixes (Hardcodées comme dans le Python original)
     Action stand();
     Action sit();
     Action lie();
